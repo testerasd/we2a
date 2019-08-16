@@ -6,7 +6,7 @@ const math = require('math-expression-evaluator');   //WESO#0001
 const figlet = require('figlet');   //WESO#0001
 const fs = require('fs');  //WESO#0001
 const ms = require('ms');  //WESO#0001
-const prefix = '-'
+const prefix = '+'
 
 client.on('message', msg => {  //WESO#0001
     if (msg.content === 'باك') {  //WESO#0001
@@ -15,8 +15,8 @@ client.on('message', msg => {  //WESO#0001
   });
 
 client.on('message', msg => {  //WESO#0001
-    if (msg.content === 'ويسو') {  //WESO#0001
-      msg.reply('**ويسو مات**');  //WESO#0001
+    if (msg.content === 'ناريكو') {  //WESO#0001
+      msg.reply('**ناريكو مات **');  //WESO#0001
     }
   });
 
@@ -42,7 +42,11 @@ client.on('message', msg => {  //WESO#0001
     }
   });
 
-
+client.on('message', msg => {  //WESO#0001
+    if (msg.content === 'السلام عليكم') {  //WESO#0001
+      msg.reply('**وعليكم السلام ورحمة الله وبركاتة :heart: **');  //WESO#0001
+    }
+  });
 
 
   
@@ -63,7 +67,7 @@ client.on("message", message => {    //WESO#0001
         if(message.author.bot) return;  //WESO#0001
         var emojiid =  message.content.split(" ").slice(1).join(" ")   //WESO#0001
         console.log(emojiid) 
-        if(emojiid.length < "18" || emojiid.length > "18" || isNaN(emojiid)) return  message.channel.send(`- Usage  //WESO#0001
+        if(emojiid.length < "18" || emojiid.length > "18" || isNaN(emojiid)) return  message.channel.send(`- Usage  //NARIKO#2009
 ${prefix}emoji <EmojiID>`); 
         else    
         message.channel.send("This is the emoji that you requested:-",  //WESO#0001
@@ -168,74 +172,73 @@ client.on('message',async message => {  //WESO#0001
           name: nameClan,
           createdAt: new Date().toLocaleString(),  //WESO#0001
           level: levelClan,
-          creator: message.author.id,  //WESO#0001
-          members: members,  //WESO#0001
-          applylist: [],  //WESO#0001
-          admins: []  //WESO#0001  //WESO#0001
+          creator: message.author.id, 
+          members: members,  
+          applylist: [],  
+          admins: []  
         };
  
-        system[author.id] = {  //WESO#0001
-          clan: nameClan,  //WESO#0001
-          joinedAt: new Date().toLocaleString(),  //WESO#0001
-          clanLevel: 0,  //WESO#0001
-          creator: message.author.id  //WESO#0001
+        system[author.id] = {  
+          clan: nameClan,  
+          joinedAt: new Date().toLocaleString(),  
+          clanLevel: 0,  
+          creator: message.author.id  
         };
  
-        m = await m.edit('**# تم عمل الكلان بنجاح**');  //WESO#0001
+        m = await m.edit('**# تم عمل الكلان بنجاح**');  
       }, 2300);
  
     }
-    if(args[1] && args[1] === 'invite') {  //WESO#0001
-      if(!system[author.id]) return message.channel.send("**# أنت لست بكلان**");  //WESO#0001
+    if(args[1] && args[1] === 'invite') {  
+      if(!system[author.id]) return message.channel.send("**# أنت لست بكلان**");  
       let clan = system[author.id].clan;
-      if(system[author.id].clan === 'None') return message.channel.send('**# أنت لست بكلان**');  //WESO#0001
+      if(system[author.id].clan === 'None') return message.channel.send('**# أنت لست بكلان**');  
       if(!clans[clan].admins.includes(message.author.id) && clans[system[author.id].clan].creator !== message.author.id) return message.channel.send('**# يجب عليك ان تكون اداري بالكلان**');
-      let mention = message.mentions.users.first();  //WESO#0001
-      if(!mention) return message.channel.send('**# منشن شخص لدعوته للكلان**');  //WESO#0001
-      if(clans[clan].members.includes(mention.id)) return message.channel.send("**# هذا العضو بالكلان بالفعل**");  //WESO#0001
-      if(clans[clan].members.length === 10) return message.channel.send("**# هذا الكلان وصل للحد الاقصى من الاعضاء يمكنك**");  //WESO#0001
-   //WESO#0001  //WESO#0001  //WESO#0001  //WESO#0001  //WESO#0001
+      let mention = message.mentions.users.first();  
+      if(!mention) return message.channel.send('**# منشن شخص لدعوته للكلان**');  
+      if(clans[clan].members.includes(mention.id)) return message.channel.send("**# هذا العضو بالكلان بالفعل**");  
+      if(clans[clan].members.length === 10) return message.channel.send("**# هذا الكلان وصل للحد الاقصى من الاعضاء يمكنك**");  
       let m = await message.channel.send(`**${mention} # \`${clan}\`, تم دعوتك لدخول الكلان**\n\n - لقبول الدعوة \`نعم\`\n - لرفض الدعوة \`لا\``);
       let awaiting = await message.channel.awaitMessages(r => r.author.id === mention.id, {max: 1, time: 20000, errors:['time']}).then(collected => {
-        collected.first().delete().catch();  //WESO#0001
-        if(collected.first().content === 'نعم') {  //WESO#0001
-          clans[clan].members.push(mention.id);  //WESO#0001
+        collected.first().delete().catch();  
+        if(collected.first().content === 'نعم') { 
+          clans[clan].members.push(mention.id);  
  
-          system[author.id].members += 1;  //WESO#0001
+          system[author.id].members += 1;
  
  
-          system[mention.id] = {  //WESO#0001
+          system[mention.id] = {  
             clan: clan,
-            joinedAt: new Date().toLocaleString(),  //WESO#0001
+            joinedAt: new Date().toLocaleString(),  
             clanLevel: 0,
             creator: clans[clan].creator  //WESO#0001
           };
  
-          message.channel.send(`**${message.author} # تم قبول الدعوة**`);  //WESO#0001
+          message.channel.send(`**${message.author} # تم قبول الدعو];
         }  //WESO#0001
-        if(collected.first().content === 'لا') {  //WESO#0001
-          message.channel.send(`**${message.author} # تم رفض الدعوة**`);  //WESO#0001
-        } else if(collected.first().content !== 'نعم' && collected.first().content !== 'لا'){  //WESO#0001
-          return message.channel.send('**# يجب عليك كتابة `نعم` أو `لا`**');  //WESO#0001
-        }  //WESO#0001
-      });  //WESO#0001
-    }  //WESO#0001
+        if(collected.first().content === 'لا') {  
+          message.channel.send(`**${message.author} # تم رفض الدعوة**`);  
+        } else if(collected.first().content !== 'نعم' && collected.first().content !== 'لا'){  
+          return message.channel.send('**# يجب عليك كتابة `نعم` أو `لا`**');  
+        }  //NARIKO#2009
+      });  //NARIKO#2009
+    }  //NARIKO#2009
     if(args[1] && args[1] === 'stats') {
       if(system[author.id].clan === 'None') return message.channel.send('**# يجب ان تكون بكلان لأستخدام هذا الأمر**');  //WESO#0001
       let clan = system[author.id].clan;  //WESO#0001
       let embed = new Discord.RichEmbed()  //WESO#0001
-        .setAuthor(`${message.author.username} || الكلانات`, message.author.avatarURL)  //WESO#0001
+        .setAuthor(`${message.author.username} || الكلانات`, message.author.avatarURL)  
         .setDescription(`الكلان || \`${clan.toString()}\``)  //WESO#0001
         embed.addField('» اسم الكلان', clan, true)  //WESO#0001
-        embed.addField('» تاريخ عمل الكلان', clans[clan].createdAt, true);  //WESO#0001
-        embed.addField('» تاريخ دخول الكلان', system[author.id].joinedAt, true)  //WESO#0001
-        embed.addField('» صاحب الكلان', `<@${clans[clan].creator}>`, true);  //WESO#0001
-        embed.addField('» لفل الكلان', clans[clan].level, true);  //WESO#0001
-        embed.addField('» عدد اعضاء الكلان', clans[clan].members.length, true);  //WESO#0001
-        embed.addField('» عدد التقديمات للكلان', clans[clan].applylist.length, true);  //WESO#0001
-        embed.addField('» عدد الادمنية بالكلان', clans[clan].admins.length, true);  //WESO#0001
-        embed.addField('» اعضاء الكلان', `${prefix}clan list || يظهرلك رسالة بها اعضاء الكلان`);  //WESO#0001
-      message.channel.send(embed);  //WESO#0001
+        embed.addField('» تاريخ عمل الكلان', clans[clan].createdAt, true);  
+        embed.addField('» تاريخ دخول الكلان', system[author.id].joinedAt, true)  
+        embed.addField('» صاحب الكلان', `<@${clans[clan].creator}>`, true);  
+        embed.addField('» لفل الكلان', clans[clan].level, true');
+        embed.addField('» عدد اعضاء الكلان', clans[clan].members.length, true);  
+        embed.addField('» عدد التقديمات للكلان', clans[clan].applylist.length, true);  
+        embed.addField('» عدد الادمنية بالكلان', clans[clan].admins.length, true);  
+        embed.addField('» اعضاء الكلان', `${prefix}clan list || يظهرلك رسالة بها اعضاء الكلان`);  
+      message.channel.send(embed);  //NARIKO#2009
  
     }
     if(args[1] && args[1] === 'join') {  //WESO#0001  //WESO#0001
@@ -868,7 +871,7 @@ client.on('message', PuP => {
 
 client.on('ready', function(){
     var ms = 10000 ;
-    var setGame = [' -help',`Im on ${client.guilds.size} servers`,`i help ${client.users.size} Members`,' BAD Is The Best ','Just Do It'];
+    var setGame = ['+help | By Nariko'];
     var i = -1;
     var j = 0;
     setInterval(function (){
@@ -3681,7 +3684,7 @@ reaction1.on("collect", r => {
 『-rules ====> يعرض لك قوانين السيرفر
 『-v2min ====> لصنع روم صوتي مؤقت
 『-inv ====> لدعوة البوت الى سيرفرك
-『 By ====> WESO#0001
+『 By ====> NARIKO#2009
 **
 `)
    message.author.sendEmbed(embed)
@@ -3739,7 +3742,7 @@ reaction2.on("collect", r => {
 『-unmutechannel ====> فتح الشات
 『-ct <name> ====> انشاء شات
 『-cv <name> ====> انشاء رووم فويس
-『 By ====> WESO#0001
+『 By ====> NARIKO#2009
 **
 `)
    message.author.sendEmbed(embed)
@@ -3777,7 +3780,7 @@ reaction3.on("collect", r => {
 『-لعبة مريم ====> مريم
 『-عواصم
 『-يعطيك عقابات قاسية ====> عقاب
-『 By ====> WESO#0001
+『 By ====> NARIKO#2009
 `)
    message.author.sendEmbed(embed)
    message.reply('تم ارسالك بلخاص')
@@ -3789,7 +3792,7 @@ reaction3.on("collect", r => {
             -=- الرومات اللازمة للبوت -=-
 『=.=.=.=.=.=.=.=.=.=.=.=.=.=.=.=.=.=.』
 تحتاج رومات بالاسماء التالية
-Weclom روم الترحيب
+WeLcome روم الترحيب
 suggestions روم الاقتراحات
 'روم 'التقديمات 
 روم التوديع leave
